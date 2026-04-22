@@ -12,6 +12,11 @@ const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-headin
 export const metadata: Metadata = {
   title: content.meta.title,
   description: content.meta.description,
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

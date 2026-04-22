@@ -5,6 +5,7 @@ import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { content } from '@/lib/content'
+import { BrandLogo } from '@/components/brand/brand-logo'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -43,8 +44,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-background p-4 page-enter">
       <div className="w-full max-w-md bg-card rounded-2xl shadow-sm border p-8 space-y-6">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-primary rounded-xl">
-            <span className="text-primary-foreground text-xl font-bold">₹</span>
+          <div className="inline-flex justify-center">
+            <BrandLogo iconOnly />
           </div>
           <h1 className="text-2xl font-bold text-foreground">{content.auth.login.title}</h1>
           <p className="text-sm text-muted-foreground">{content.auth.login.subtitle}</p>

@@ -6,6 +6,7 @@ import { signOut } from 'next-auth/react'
 import { LayoutDashboard, Wallet, FolderKanban, Users, LogOut } from 'lucide-react'
 import { content } from '@/lib/content'
 import { emitRouteLoadingStart } from '@/components/nav/route-progress'
+import { BrandLogo } from '@/components/brand/brand-logo'
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: content.nav.items.dashboard },
@@ -25,12 +26,7 @@ export function Sidebar({ user }: Props) {
     <aside className="w-60 flex-shrink-0 bg-card border-r flex flex-col">
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">₹</span>
-          </div>
-          <span className="font-bold text-foreground">{content.nav.brand}</span>
-        </div>
+        <BrandLogo compact withTagline={false} />
       </div>
 
       {/* Nav */}

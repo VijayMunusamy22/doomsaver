@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { content } from '@/lib/content'
+import { BrandLogo } from '@/components/brand/brand-logo'
 
 type Step = 'choose' | 'create' | 'join'
 
@@ -67,8 +68,8 @@ export default function OnboardingPage() {
     <div className="min-h-screen flex items-center justify-center bg-background p-4 page-enter">
       <div className="w-full max-w-lg bg-card rounded-2xl shadow-sm border p-8 space-y-6">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-primary rounded-xl mb-3">
-            <span className="text-primary-foreground text-xl font-bold">₹</span>
+          <div className="inline-flex justify-center mb-3">
+            <BrandLogo iconOnly />
           </div>
           <h1 className="text-2xl font-bold text-foreground">{content.onboarding.title}</h1>
           <p className="text-sm text-muted-foreground mt-1">{content.onboarding.subtitle}</p>

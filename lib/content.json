@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "FamilyBudget — ₹",
-    "description": "Plan and track your family finances together"
+    "title": "DoomSaver",
+    "description": "Plan and track your family finances together with DoomSaver"
   },
   "nav": {
-    "brand": "FamilyBudget",
+    "brand": "DoomSaver",
     "items": {
       "dashboard": "Dashboard",
       "income": "Income",

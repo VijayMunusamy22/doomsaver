@@ -1,9 +1,11 @@
 import { Skeleton } from '@/components/ui/skeleton'
+import { BrandLogo } from '@/components/brand/brand-logo'
 
 export function FullScreenLoader() {
   return (
     <div className="min-h-screen bg-background grid place-items-center page-enter">
       <div className="flex flex-col items-center gap-4">
+        <BrandLogo iconOnly />
         <div className="relative h-10 w-10">
           <span className="absolute inset-0 rounded-full border-2 border-primary/25" />
           <span className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary loader-spin" />
