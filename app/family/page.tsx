@@ -20,9 +20,9 @@ export default async function FamilyPage() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-6 page-enter">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 page-enter">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">{content.family.pageTitle}</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground">{content.family.pageTitle}</h1>
           <p className="text-muted-foreground text-sm mt-1">{content.family.pageSubtitle}</p>
         </div>
         {family && <FamilyPanel family={family} currentUserId={session!.user.id} />}

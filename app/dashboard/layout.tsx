@@ -11,9 +11,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!session.user.familyId) redirect('/onboarding')
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-[100dvh] overflow-hidden bg-background">
       <Sidebar user={session.user} />
-      <main className="flex-1 overflow-y-auto">
+      <main className="min-w-0 flex-1 overflow-y-auto pt-14 lg:pt-0">
         <Suspense fallback={<DashboardContentLoader />}>{children}</Suspense>
       </main>
     </div>

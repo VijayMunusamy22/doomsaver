@@ -79,13 +79,13 @@ export default function RegisterPage() {
                 type={field === 'password' ? 'password' : field === 'email' ? 'email' : 'text'}
                 value={form[field]}
                 onChange={e => setForm(p => ({ ...p, [field]: e.target.value }))}
-                placeholder={
+                /* placeholder={
                   field === 'name'
                     ? content.auth.register.namePlaceholder
                     : field === 'email'
                       ? content.auth.register.emailPlaceholder
                       : content.auth.register.passwordPlaceholder
-                }
+                } */
                 required
                 minLength={field === 'password' ? 6 : 1}
                 className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"

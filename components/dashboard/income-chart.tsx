@@ -43,7 +43,7 @@ export function IncomeChart({ incomes }: Props) {
 
   if (grouped.length === 0) {
     return (
-      <div className="bg-card rounded-2xl border p-6 flex flex-col items-center justify-center h-72 gap-2">
+      <div className="bg-card rounded-2xl border p-4 sm:p-6 flex flex-col items-center justify-center h-72 gap-2">
         <p className="text-muted-foreground text-sm">{content.dashboard.incomeChart.emptyTitle}</p>
         <p className="text-xs text-muted-foreground/70">
           {content.dashboard.incomeChart.emptySubtitle}
@@ -53,33 +53,35 @@ export function IncomeChart({ incomes }: Props) {
   }
 
   return (
-    <div className="bg-card rounded-2xl border p-6 min-h-[360px] flex flex-col">
+    <div className="bg-card rounded-2xl border p-4 sm:p-6 min-h-[340px] sm:min-h-[360px] flex flex-col">
       <h3 className="font-semibold text-foreground mb-1">{content.dashboard.incomeChart.title}</h3>
       <p className="text-xs text-muted-foreground mb-4">{content.dashboard.incomeChart.subtitle}</p>
-      <ResponsiveContainer width="100%" height={260}>
-        <PieChart>
-          <Pie
-            data={grouped}
-            cx="50%"
-            cy="50%"
-            innerRadius={62}
-            outerRadius={88}
-            paddingAngle={3}
-            dataKey="value"
-          >
-            {grouped.map((_, i) => (
-              <Cell key={i} fill={COLORS[i % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip
-            formatter={(value: number, _: string, item: any) => {
-              const point = item?.payload as { percent?: number } | undefined
-              const pct = point?.percent ?? 0
-              return [`${formatINR(value)} (${pct.toFixed(1)}%)`, '']
-            }}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+      <div className="h-[220px] sm:h-[260px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={grouped}
+              cx="50%"
+              cy="50%"
+              innerRadius={62}
+              outerRadius={88}
+              paddingAngle={3}
+              dataKey="value"
+            >
+              {grouped.map((_, i) => (
+                <Cell key={i} fill={COLORS[i % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip
+              formatter={(value: number, _: string, item: any) => {
+                const point = item?.payload as { percent?: number } | undefined
+                const pct = point?.percent ?? 0
+                return [`${formatINR(value)} (${pct.toFixed(1)}%)`, '']
+              }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
       <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
         {grouped.map((item, index) => (
           <div key={item.name} className="flex items-center gap-2">

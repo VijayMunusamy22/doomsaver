@@ -82,7 +82,7 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder={content.auth.login.emailPlaceholder}
+              // placeholder={content.auth.login.emailPlaceholder}
               required
               className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
             />
@@ -93,7 +93,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              placeholder={content.auth.login.passwordPlaceholder}
+              // placeholder={content.auth.login.passwordPlaceholder}
               required
               className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
             />

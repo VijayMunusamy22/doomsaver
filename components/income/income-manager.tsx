@@ -129,12 +129,12 @@ export function IncomeManager({ initialIncomes, members }: Props) {
   return (
     <div className="space-y-5">
       {/* Summary banner */}
-      <div className="bg-card rounded-2xl border p-5 flex items-center justify-between">
+      <div className="bg-card rounded-2xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <p className="text-sm text-muted-foreground">{content.income.manager.summaryMonthly}</p>
-          <p className="text-3xl font-bold text-foreground">{formatINR(totalMonthly)}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-foreground">{formatINR(totalMonthly)}</p>
         </div>
-        <div className="text-right">
+        <div className="text-left sm:text-right">
           <p className="text-sm text-muted-foreground">{content.income.manager.summaryAnnual}</p>
           <p className="text-xl font-semibold text-foreground">{formatINR(totalMonthly * 12)}</p>
         </div>
@@ -142,7 +142,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
 
       {/* Add / Edit form */}
       {showForm && (
-        <div className="bg-card rounded-2xl border p-6 space-y-4">
+        <div className="bg-card rounded-2xl border p-4 sm:p-6 space-y-4">
           <h3 className="font-semibold text-foreground">
             {editId ? content.income.manager.editTitle : content.income.manager.addTitle}
           </h3>
@@ -197,17 +197,17 @@ export function IncomeManager({ initialIncomes, members }: Props) {
               </select>
             </div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={cancelForm}
-              className="px-4 py-2 border rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted"
+              className="px-4 py-2 border rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted w-full sm:w-auto"
             >
               {content.income.manager.cancel}
             </button>
             <button
               onClick={save}
               disabled={loading || !form.label.trim() || !form.amount || !form.userId}
-              className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 disabled:opacity-60"
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 disabled:opacity-60 w-full sm:w-auto"
             >
               {loading
                 ? content.income.manager.saveLoading
@@ -221,7 +221,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
 
       {/* List */}
       <div className="bg-card rounded-2xl border overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b">
+        <div className="flex items-center justify-between gap-2 px-4 sm:px-6 py-4 border-b">
           <h3 className="font-semibold text-foreground">{content.income.manager.listTitle}</h3>
           {!showForm && (
             <button
@@ -239,7 +239,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
         </div>
 
         {incomes.length === 0 ? (
-          <div className="p-12 text-center text-muted-foreground">
+          <div className="p-8 sm:p-12 text-center text-muted-foreground">
             <Wallet className="w-10 h-10 mx-auto mb-3 opacity-30" />
             <p className="text-sm">{content.income.manager.emptyTitle}</p>
             <p className="text-xs mt-1 text-muted-foreground/70">{content.income.manager.emptySubtitle}</p>
@@ -247,9 +247,9 @@ export function IncomeManager({ initialIncomes, members }: Props) {
         ) : (
           <div className="divide-y">
             {incomes.map(income => (
-              <div key={income.id} className="flex items-center px-6 py-4 gap-4">
+              <div key={income.id} className="flex flex-col sm:flex-row sm:items-center px-4 sm:px-6 py-4 gap-3 sm:gap-4">
                 <span
-                  className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 ${SOURCE_COLORS[income.type]}`}
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 self-start ${SOURCE_COLORS[income.type]}`}
                 >
                   {SOURCE_LABELS[income.type]}
                 </span>
@@ -259,7 +259,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
                     {income.user?.name ?? income.user?.email}
                   </p>
                 </div>
-                <div className="text-right">
+                <div className="text-left sm:text-right">
                   <p className="font-semibold text-foreground text-sm">
                     {formatINR(income.amount)}
                     <span className="text-muted-foreground font-normal">
@@ -271,7 +271,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
                     {content.income.manager.yearSuffix}
                   </p>
                 </div>
-                <div className="flex gap-1 flex-shrink-0">
+                <div className="flex gap-1 flex-shrink-0 self-end sm:self-auto">
                   <button
                     onClick={() => startEdit(income)}
                     className="p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition"

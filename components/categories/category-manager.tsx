@@ -201,12 +201,12 @@ export function CategoryManager({ initialCategories, members }: Props) {
   return (
     <div className="space-y-4">
       {/* Total */}
-      <div className="bg-card rounded-2xl border p-5 flex items-center justify-between">
+      <div className="bg-card rounded-2xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-sm text-muted-foreground font-medium">
           {content.categories.manager.summaryMonthly}
         </p>
-        <div className="text-right">
-          <p className="text-2xl font-bold text-foreground">{formatINR(totalAllocated)}</p>
+        <div className="text-left sm:text-right">
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{formatINR(totalAllocated)}</p>
           <p className="text-xs text-muted-foreground">
             {formatINR(totalAllocated * 12)} {content.categories.manager.summaryYearSuffix}
           </p>
@@ -215,7 +215,7 @@ export function CategoryManager({ initialCategories, members }: Props) {
 
       {/* Category list */}
       {categories.length === 0 && !showNewCat && (
-        <div className="bg-card rounded-2xl border p-12 text-center text-muted-foreground">
+        <div className="bg-card rounded-2xl border p-8 sm:p-12 text-center text-muted-foreground">
           <FolderKanban className="w-10 h-10 mx-auto mb-3 opacity-30" />
           <p className="text-sm">{content.categories.manager.emptyTitle}</p>
           <p className="text-xs mt-1 text-muted-foreground/70">
@@ -231,7 +231,7 @@ export function CategoryManager({ initialCategories, members }: Props) {
         return (
           <div key={cat.id} className="bg-card rounded-2xl border overflow-hidden">
             {/* Header */}
-            <div className="flex items-center gap-3 px-5 py-4">
+            <div className="flex items-center gap-3 px-3 sm:px-5 py-4">
               <button
                 onClick={() => toggle(cat.id)}
                 className="text-muted-foreground hover:text-foreground flex-shrink-0"
@@ -305,15 +305,15 @@ export function CategoryManager({ initialCategories, members }: Props) {
             {isOpen && (
               <div className="border-t bg-muted/60">
                 {cat.subCategories.length === 0 && (
-                  <p className="px-10 py-3 text-xs text-muted-foreground">
+                  <p className="px-4 sm:px-10 py-3 text-xs text-muted-foreground">
                     {content.categories.manager.subEmpty}
                   </p>
                 )}
 
                 {cat.subCategories.map(sub => (
-                  <div key={sub.id} className="px-10 py-3 border-b last:border-b-0">
+                  <div key={sub.id} className="px-4 sm:px-10 py-3 border-b last:border-b-0">
                     {editSubId === sub.id ? (
-                      <div className="flex items-start gap-2">
+                      <div className="flex flex-col sm:flex-row items-start gap-2">
                         <div className="flex-1 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_120px_180px] gap-2">
                           <input
                             autoFocus
@@ -351,7 +351,7 @@ export function CategoryManager({ initialCategories, members }: Props) {
                             placeholder={content.categories.manager.subcategoryNotePlaceholder}
                           />
                         </div>
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 self-end sm:self-auto">
                           <button
                             onClick={() => saveEditSub(sub.id, cat.id)}
                             className="p-1.5 text-primary hover:bg-primary/10 rounded-lg"
@@ -367,7 +367,7 @@ export function CategoryManager({ initialCategories, members }: Props) {
                         </div>
                       </div>
                     ) : (
-                      <div className="flex items-start gap-3">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-foreground">{sub.name}</p>
                           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
@@ -385,7 +385,7 @@ export function CategoryManager({ initialCategories, members }: Props) {
                             )}
                           </div>
                         </div>
-                        <div className="w-28 text-right">
+                        <div className="sm:w-28 text-left sm:text-right">
                           <p className="text-sm font-medium text-foreground">
                             {formatINR(sub.budgetAmount)}
                             <span className="text-muted-foreground font-normal text-xs">
@@ -397,33 +397,35 @@ export function CategoryManager({ initialCategories, members }: Props) {
                             {content.common.yearSuffix}
                           </p>
                         </div>
-                        <button
-                          onClick={() => {
-                            setEditSubId(sub.id)
-                            setEditSubData({
-                              name: sub.name,
-                              budgetAmount: String(sub.budgetAmount),
-                              managerId: sub.managerId ?? '',
-                              note: sub.note ?? '',
-                            })
-                          }}
-                          className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg"
-                        >
-                          <Pencil className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => deleteSubCategory(sub.id, cat.id)}
-                          className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
+                        <div className="flex items-center gap-1 self-end sm:self-auto">
+                          <button
+                            onClick={() => {
+                              setEditSubId(sub.id)
+                              setEditSubData({
+                                name: sub.name,
+                                budgetAmount: String(sub.budgetAmount),
+                                managerId: sub.managerId ?? '',
+                                note: sub.note ?? '',
+                              })
+                            }}
+                            className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg"
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => deleteSubCategory(sub.id, cat.id)}
+                            className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-lg"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
                 ))}
 
                 {/* Add subcategory row */}
-                <div className="px-10 py-3 space-y-2">
+                <div className="px-4 sm:px-10 py-3 space-y-2">
                   <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_120px_180px_auto] gap-2">
                     <input
                       value={newSubName[cat.id] ?? ''}
@@ -455,7 +457,7 @@ export function CategoryManager({ initialCategories, members }: Props) {
                     <button
                       onClick={() => addSubCategory(cat.id)}
                       disabled={!newSubName[cat.id]?.trim()}
-                      className="flex items-center justify-center gap-1.5 bg-primary text-primary-foreground px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-primary/90 disabled:opacity-50 transition"
+                      className="flex items-center justify-center gap-1.5 bg-primary text-primary-foreground px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-primary/90 disabled:opacity-50 transition w-full md:w-auto"
                     >
                       <Plus className="w-3 h-3" />
                       {content.common.buttons.add}
@@ -477,9 +479,9 @@ export function CategoryManager({ initialCategories, members }: Props) {
 
       {/* New category form */}
       {showNewCat ? (
-        <div className="bg-card rounded-2xl border p-5 space-y-4">
+        <div className="bg-card rounded-2xl border p-4 sm:p-5 space-y-4">
           <h3 className="font-semibold text-foreground text-sm">{content.categories.manager.newCategoryTitle}</h3>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <input
               autoFocus
               value={newCatName}
@@ -503,17 +505,17 @@ export function CategoryManager({ initialCategories, members }: Props) {
               ))}
             </div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={() => { setShowNewCat(false); setNewCatName(''); setNewCatColor(CATEGORY_COLORS[0]) }}
-              className="px-4 py-2 border rounded-lg text-sm text-muted-foreground hover:bg-muted"
+              className="px-4 py-2 border rounded-lg text-sm text-muted-foreground hover:bg-muted w-full sm:w-auto"
             >
               {content.common.buttons.cancel}
             </button>
             <button
               onClick={addCategory}
               disabled={!newCatName.trim()}
-              className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 disabled:opacity-60"
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 disabled:opacity-60 w-full sm:w-auto"
             >
               {content.categories.manager.addCategory}
             </button>

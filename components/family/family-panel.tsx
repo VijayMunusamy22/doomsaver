@@ -37,7 +37,7 @@ export function FamilyPanel({ family, currentUserId }: Props) {
   return (
     <div className="space-y-5 max-w-2xl">
       {/* Family card */}
-      <div className="bg-card rounded-2xl border p-6 flex items-center gap-4">
+      <div className="bg-card rounded-2xl border p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
           <Users className="w-7 h-7 text-primary" />
         </div>
@@ -53,18 +53,18 @@ export function FamilyPanel({ family, currentUserId }: Props) {
 
       {/* Invite code — COUPLE only */}
       {family.mode === 'COUPLE' && (
-        <div className="bg-card rounded-2xl border p-6 space-y-4">
+        <div className="bg-card rounded-2xl border p-4 sm:p-6 space-y-4">
           <div>
             <h3 className="font-semibold text-foreground">{content.family.panel.inviteTitle}</h3>
             <p className="text-sm text-muted-foreground mt-0.5">{content.family.panel.inviteDescription}</p>
           </div>
-          <div className="flex items-center gap-3 bg-muted border rounded-xl px-5 py-4">
-            <code className="flex-1 font-sans font-bold text-2xl text-primary tracking-[0.25em]">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-muted border rounded-xl px-4 sm:px-5 py-4">
+            <code className="flex-1 font-sans font-bold text-lg sm:text-2xl text-primary tracking-[0.15em] sm:tracking-[0.25em] break-all">
               {family.inviteCode}
             </code>
             <button
               onClick={copyCode}
-              className="flex items-center gap-1.5 bg-card border rounded-lg px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors"
+              className="flex items-center justify-center gap-1.5 bg-card border rounded-lg px-3 py-2 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors w-full sm:w-auto"
             >
               {copied ? (
                 <>
@@ -85,7 +85,7 @@ export function FamilyPanel({ family, currentUserId }: Props) {
 
       {/* Members list */}
       <div className="bg-card rounded-2xl border overflow-hidden">
-        <div className="px-6 py-4 border-b">
+        <div className="px-4 sm:px-6 py-4 border-b">
           <h3 className="font-semibold text-foreground">
             {content.family.panel.membersTitle}
             <span className="ml-2 text-sm font-normal text-muted-foreground">
@@ -95,7 +95,7 @@ export function FamilyPanel({ family, currentUserId }: Props) {
         </div>
         <div className="divide-y">
           {family.members.map(member => (
-            <div key={member.id} className="flex items-center gap-4 px-6 py-4">
+            <div key={member.id} className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 px-4 sm:px-6 py-4">
               {/* Avatar */}
               <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm flex-shrink-0">
                 {member.name?.[0]?.toUpperCase() ?? member.email[0].toUpperCase()}
@@ -108,7 +108,7 @@ export function FamilyPanel({ family, currentUserId }: Props) {
                 <p className="text-xs text-muted-foreground truncate">{member.email}</p>
               </div>
 
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center gap-2 flex-shrink-0 self-start sm:self-auto">
                 {member.id === currentUserId && (
                   <span className="text-xs bg-secondary/30 text-secondary-foreground px-2 py-0.5 rounded-full font-medium">
                     {content.family.panel.you}

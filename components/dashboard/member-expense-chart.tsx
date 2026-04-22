@@ -70,7 +70,7 @@ export function MemberExpenseChart({ categories, members }: Props) {
 
   if (baseData.length === 0) {
     return (
-      <div className="bg-card rounded-2xl border p-6 flex flex-col items-center justify-center h-72 gap-2">
+      <div className="bg-card rounded-2xl border p-4 sm:p-6 flex flex-col items-center justify-center h-72 gap-2">
         <p className="text-muted-foreground text-sm">{content.dashboard.memberExpenseChart.emptyTitle}</p>
         <p className="text-xs text-muted-foreground/70">
           {content.dashboard.memberExpenseChart.emptySubtitle}
@@ -86,31 +86,33 @@ export function MemberExpenseChart({ categories, members }: Props) {
   }))
 
   return (
-    <div className="bg-card rounded-2xl border p-6 min-h-[360px] flex flex-col">
+    <div className="bg-card rounded-2xl border p-4 sm:p-6 min-h-[340px] sm:min-h-[360px] flex flex-col">
       <h3 className="font-semibold text-foreground mb-1">
         {content.dashboard.memberExpenseChart.title}
       </h3>
       <p className="text-xs text-muted-foreground mb-4">
         {content.dashboard.memberExpenseChart.subtitle}
       </p>
-      <ResponsiveContainer width="100%" height={250}>
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius={58}
-            outerRadius={90}
-            paddingAngle={3}
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell key={index} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip content={<MemberExpenseTooltip />} />
-        </PieChart>
-      </ResponsiveContainer>
+      <div className="h-[220px] sm:h-[250px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              innerRadius={58}
+              outerRadius={90}
+              paddingAngle={3}
+              dataKey="value"
+            >
+              {data.map((entry, index) => (
+                <Cell key={index} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip content={<MemberExpenseTooltip />} />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
       <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
         {data.map(item => (
           <div key={item.name} className="flex items-center gap-2">

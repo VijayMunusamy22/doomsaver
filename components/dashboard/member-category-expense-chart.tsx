@@ -133,7 +133,7 @@ export function MemberCategoryExpenseChart({ categories, members }: Props) {
 
   if (rows.length === 0) {
     return (
-      <div className="bg-card rounded-2xl border p-6 flex flex-col items-center justify-center h-72 gap-2">
+      <div className="bg-card rounded-2xl border p-4 sm:p-6 flex flex-col items-center justify-center h-72 gap-2">
         <p className="text-muted-foreground text-sm">
           {content.dashboard.memberCategoryChart.emptyTitle}
         </p>
@@ -145,7 +145,7 @@ export function MemberCategoryExpenseChart({ categories, members }: Props) {
   }
 
   return (
-    <div className="bg-card rounded-2xl border p-6">
+    <div className="bg-card rounded-2xl border p-4 sm:p-6">
       <h3 className="font-semibold text-foreground mb-1">
         {content.dashboard.memberCategoryChart.title}
       </h3>
@@ -160,7 +160,7 @@ export function MemberCategoryExpenseChart({ categories, members }: Props) {
             tickFormatter={v => `₹${(Number(v) / 1000).toFixed(0)}k`}
             tick={{ fontSize: 11 }}
           />
-          <YAxis type="category" dataKey="member" width={130} tick={{ fontSize: 11 }} />
+          <YAxis type="category" dataKey="member" width={96} tick={{ fontSize: 10 }} />
           <Tooltip content={<MemberCategoryTooltip />} />
           <Legend wrapperStyle={{ fontSize: 11 }} />
           {categoryMeta.map(category => (

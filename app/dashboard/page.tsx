@@ -38,9 +38,9 @@ export default async function DashboardPage() {
   )
 
   return (
-    <div className="p-8 space-y-8 page-enter">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 lg:space-y-8 page-enter">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">{content.dashboard.title}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-foreground">{content.dashboard.title}</h1>
         <p className="text-muted-foreground text-sm mt-1">{content.dashboard.subtitle}</p>
       </div>
 

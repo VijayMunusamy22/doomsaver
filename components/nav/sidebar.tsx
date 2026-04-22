@@ -1,9 +1,10 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
-import { LayoutDashboard, Wallet, FolderKanban, Users, LogOut } from 'lucide-react'
+import { LayoutDashboard, Wallet, FolderKanban, Users, LogOut, Menu, X } from 'lucide-react'
 import { content } from '@/lib/content'
 import { emitRouteLoadingStart } from '@/components/nav/route-progress'
 import { BrandLogo } from '@/components/brand/brand-logo'
@@ -21,25 +22,41 @@ interface Props {
 
 export function Sidebar({ user }: Props) {
   const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
 
-  return (
-    <aside className="w-60 flex-shrink-0 bg-card border-r flex flex-col">
-      {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b">
-        <BrandLogo compact withTagline={false} />
-      </div>
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [pathname])
 
-      {/* Nav */}
-      <nav className="flex-1 p-4 space-y-1">
+  useEffect(() => {
+    if (!mobileOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [mobileOpen])
+
+  const onNavigate = (href: string) => {
+    if (pathname !== href) emitRouteLoadingStart()
+    setMobileOpen(false)
+  }
+
+  const onSignOut = () => {
+    setMobileOpen(false)
+    signOut({ callbackUrl: '/login' })
+  }
+
+  const navContent = (
+    <>
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         {navItems.map(({ href, icon: Icon, label }) => {
           const active = pathname === href
           return (
             <Link
               key={href}
               href={href}
-              onClick={() => {
-                if (pathname !== href) emitRouteLoadingStart()
-              }}
+              onClick={() => onNavigate(href)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 active
                   ? 'bg-primary text-primary-foreground'
@@ -53,7 +70,6 @@ export function Sidebar({ user }: Props) {
         })}
       </nav>
 
-      {/* User */}
       <div className="p-4 border-t">
         <div className="flex items-center gap-3 px-2 mb-2">
           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
@@ -67,13 +83,61 @@ export function Sidebar({ user }: Props) {
           </div>
         </div>
         <button
-          onClick={() => signOut({ callbackUrl: '/login' })}
+          onClick={onSignOut}
           className="w-full flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
         >
           <LogOut className="w-4 h-4" />
           {content.nav.signOut}
         </button>
       </div>
-    </aside>
+    </>
+  )
+
+  return (
+    <>
+      <header className="lg:hidden fixed inset-x-0 top-0 z-40 h-14 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/85">
+        <div className="h-full flex items-center justify-between px-3">
+          <button
+            aria-label="Open navigation"
+            onClick={() => setMobileOpen(true)}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-foreground hover:bg-muted"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          <BrandLogo compact withTagline={false} />
+          <div className="w-9" />
+        </div>
+      </header>
+
+      <aside className="hidden lg:flex h-full w-64 flex-shrink-0 bg-card border-r flex-col">
+        <div className="h-16 flex items-center px-6 border-b">
+          <BrandLogo compact withTagline={false} />
+        </div>
+        {navContent}
+      </aside>
+
+      {mobileOpen && (
+        <div className="lg:hidden fixed inset-0 z-50">
+          <button
+            aria-label="Close navigation overlay"
+            onClick={() => setMobileOpen(false)}
+            className="absolute inset-0 bg-foreground/45"
+          />
+          <aside className="absolute inset-y-0 left-0 w-[84vw] max-w-80 bg-card border-r shadow-xl flex flex-col">
+            <div className="h-14 border-b px-3 flex items-center justify-between">
+              <BrandLogo compact withTagline={false} />
+              <button
+                aria-label="Close navigation"
+                onClick={() => setMobileOpen(false)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-foreground hover:bg-muted"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            {navContent}
+          </aside>
+        </div>
+      )}
+    </>
   )
 }
