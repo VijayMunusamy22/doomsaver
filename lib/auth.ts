@@ -5,8 +5,24 @@ import GoogleProvider from 'next-auth/providers/google'
 import bcrypt from 'bcryptjs'
 import { prisma } from './prisma'
 
+const authDebug = process.env.NEXTAUTH_DEBUG === 'true'
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
+  debug: authDebug,
+  logger: {
+    error(code, metadata) {
+      console.error('[next-auth][error]', code, metadata ?? '')
+    },
+    warn(code) {
+      console.warn('[next-auth][warn]', code)
+    },
+    debug(code, metadata) {
+      if (authDebug) {
+        console.debug('[next-auth][debug]', code, metadata ?? '')
+      }
+    },
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -35,13 +51,17 @@ export const authOptions: NextAuthOptions = {
       if (user) token.id = user.id
       // Refresh familyId + role from DB on every token refresh
       if (token.id) {
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.id as string },
-          select: { familyId: true, role: true },
-        })
-        if (dbUser) {
-          token.familyId = dbUser.familyId
-          token.role = dbUser.role
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.id as string },
+            select: { familyId: true, role: true },
+          })
+          if (dbUser) {
+            token.familyId = dbUser.familyId
+            token.role = dbUser.role
+          }
+        } catch (error) {
+          console.error('[next-auth][jwt-refresh-error]', error)
         }
       }
       return token

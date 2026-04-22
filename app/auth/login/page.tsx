@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -12,6 +12,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [authErrorCode, setAuthErrorCode] = useState<string | null>(null)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    setAuthErrorCode(params.get('error'))
+  }, [])
+
+  const providerError = useMemo(() => {
+    if (!authErrorCode) return ''
+    const oauthErrors = content.auth.login.oauthErrors as Record<string, string>
+    return oauthErrors[authErrorCode] ?? oauthErrors.default
+  }, [authErrorCode])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,9 +65,14 @@ export default function LoginPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
+          {(error || providerError) && (
             <div className="bg-primary/10 text-foreground text-sm px-4 py-3 rounded-lg border border-primary/30">
-              {error}
+              <p>{error || providerError}</p>
+              {authErrorCode && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {content.auth.login.errorCodePrefix} {authErrorCode}
+                </p>
+              )}
             </div>
           )}
           <div className="space-y-1.5">

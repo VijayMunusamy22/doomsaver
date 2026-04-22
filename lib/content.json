@@ -157,12 +157,23 @@
       "subtitle": "Sign in to manage your family budget",
       "googleButton": "Continue with Google",
       "invalidCredentials": "Invalid email or password",
+      "oauthErrors": {
+        "default": "Sign-in failed. Please try again.",
+        "Callback": "Google sign-in failed after returning from Google. Check OAuth and auth environment settings.",
+        "OAuthCallback": "Google callback validation failed. Verify redirect URI and Google app credentials.",
+        "OAuthSignin": "Could not start Google sign-in. Please try again.",
+        "OAuthCreateAccount": "Could not create account from Google profile. Please contact support.",
+        "OAuthAccountNotLinked": "This email is linked to another sign-in method. Sign in with your existing method first.",
+        "AccessDenied": "Access denied.",
+        "Configuration": "Authentication is not configured correctly on the server."
+      },
       "emailLabel": "Email",
       "emailPlaceholder": "you@example.com",
       "passwordLabel": "Password",
       "passwordPlaceholder": "••••••••",
       "submitIdle": "Sign In",
       "submitLoading": "Signing in...",
+      "errorCodePrefix": "Error code:",
       "noAccountPrefix": "Don't have an account?",
       "noAccountLink": "Sign up"
     },
