@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
@@ -8,6 +9,15 @@ import { BudgetWarning } from '@/components/dashboard/budget-warning'
 import { MemberExpenseChart } from '@/components/dashboard/member-expense-chart'
 import { MemberCategoryExpenseChart } from '@/components/dashboard/member-category-expense-chart'
 import { content } from '@/lib/content'
+
+export const metadata: Metadata = {
+  title: content.dashboard.title,
+  description: content.dashboard.subtitle,
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions)
