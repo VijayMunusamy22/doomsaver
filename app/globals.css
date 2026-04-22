@@ -93,3 +93,70 @@
     letter-spacing: -0.01em;
   }
 }
+
+@layer utilities {
+  @keyframes page-enter-kf {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes loader-spin-kf {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes route-progress-kf {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(340%);
+    }
+  }
+
+  .page-enter {
+    animation: page-enter-kf 260ms ease-out both;
+  }
+
+  .loader-spin {
+    animation: loader-spin-kf 700ms linear infinite;
+  }
+
+  .route-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 60;
+    width: 100%;
+    height: 3px;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 140ms ease;
+  }
+
+  .route-progress::after {
+    content: '';
+    display: block;
+    width: 30%;
+    height: 100%;
+    border-radius: 9999px;
+    background: hsl(var(--primary));
+    transform: translateX(-100%);
+  }
+
+  .route-progress.is-active {
+    opacity: 1;
+  }
+
+  .route-progress.is-active::after {
+    animation: route-progress-kf 900ms ease-in-out infinite;
+  }
+}

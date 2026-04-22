@@ -24,7 +24,7 @@ export default async function CategoriesPage() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-6">
+      <div className="p-8 space-y-6 page-enter">
         <div>
           <h1 className="text-2xl font-bold text-foreground">{content.categories.pageTitle}</h1>
           <p className="text-muted-foreground text-sm mt-1">{content.categories.pageSubtitle}</p>

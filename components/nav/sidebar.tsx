@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import { LayoutDashboard, Wallet, FolderKanban, Users, LogOut } from 'lucide-react'
 import { content } from '@/lib/content'
+import { emitRouteLoadingStart } from '@/components/nav/route-progress'
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, label: content.nav.items.dashboard },
@@ -40,6 +41,9 @@ export function Sidebar({ user }: Props) {
             <Link
               key={href}
               href={href}
+              onClick={() => {
+                if (pathname !== href) emitRouteLoadingStart()
+              }}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 active
                   ? 'bg-primary text-primary-foreground'

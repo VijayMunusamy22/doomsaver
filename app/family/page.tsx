@@ -20,7 +20,7 @@ export default async function FamilyPage() {
 
   return (
     <DashboardLayout>
-      <div className="p-8 space-y-6">
+      <div className="p-8 space-y-6 page-enter">
         <div>
           <h1 className="text-2xl font-bold text-foreground">{content.family.pageTitle}</h1>
           <p className="text-muted-foreground text-sm mt-1">{content.family.pageSubtitle}</p>

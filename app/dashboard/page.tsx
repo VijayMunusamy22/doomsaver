@@ -38,7 +38,7 @@ export default async function DashboardPage() {
   )
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-8 space-y-8 page-enter">
       <div>
         <h1 className="text-2xl font-bold text-foreground">{content.dashboard.title}</h1>
         <p className="text-muted-foreground text-sm mt-1">{content.dashboard.subtitle}</p>
