@@ -86,6 +86,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={cn('font-sans', dmSans.variable, playfair.variable)}>
+      <head>
+        <meta name="google-site-verification" content="TqT4atSMHLIu6ItqWLDYRrtl1ybuLfdF5rj2XaVpdFQ" />
+      </head>
       <body className={dmSans.className}>
         <StructuredData />
         <RouteProgress />
