@@ -121,6 +121,12 @@
     }
   }
 
+  @keyframes skeleton-shimmer-kf {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
   .page-enter {
     animation: page-enter-kf 260ms ease-out both;
   }
@@ -158,5 +164,26 @@
 
   .route-progress.is-active::after {
     animation: route-progress-kf 900ms ease-in-out infinite;
+  }
+
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: inherit;
+    background: hsl(var(--foreground) / 0.12);
+  }
+
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--background) / 0.72),
+      transparent
+    );
+    animation: skeleton-shimmer-kf 1.25s ease-in-out infinite;
   }
 }

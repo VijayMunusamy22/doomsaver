@@ -20,6 +20,13 @@ export function FullScreenLoader() {
 export function DashboardContentLoader() {
   return (
     <div className="p-8 space-y-6 page-enter">
+      <div className="flex items-center justify-end">
+        <div className="relative h-7 w-7">
+          <span className="absolute inset-0 rounded-full border-2 border-primary/20" />
+          <span className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary loader-spin" />
+        </div>
+      </div>
+
       <div className="space-y-2">
         <Skeleton className="h-8 w-44" />
         <Skeleton className="h-4 w-72 max-w-full" />
