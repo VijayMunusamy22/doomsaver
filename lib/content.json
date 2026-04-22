@@ -1,0 +1,213 @@
+{
+  "meta": {
+    "title": "FamilyBudget — ₹",
+    "description": "Plan and track your family finances together"
+  },
+  "nav": {
+    "brand": "FamilyBudget",
+    "items": {
+      "dashboard": "Dashboard",
+      "income": "Income",
+      "categories": "Categories",
+      "family": "Family"
+    },
+    "userFallback": "User",
+    "signOut": "Sign out"
+  },
+  "common": {
+    "monthSuffix": "/mo",
+    "yearSuffix": "/yr",
+    "yearLongSuffix": "/ year",
+    "or": "or",
+    "labels": {
+      "unassigned": "Unassigned",
+      "noNote": "No note",
+      "notePrefix": "Note:"
+    },
+    "buttons": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "back": "Back",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "signIn": "Sign In",
+      "signUp": "Sign up"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Your family budget overview",
+    "incomeChart": {
+      "title": "Income Breakdown",
+      "subtitle": "Split across family members",
+      "emptyTitle": "No income data yet",
+      "emptySubtitle": "Add income sources on the Income page"
+    },
+    "categoryChart": {
+      "title": "Budget by Category",
+      "subtitle": "How income is allocated",
+      "emptyTitle": "No categories yet",
+      "emptySubtitle": "Add categories on the Categories page",
+      "unallocated": "Unallocated"
+    },
+    "memberExpenseChart": {
+      "title": "Expense by Member",
+      "subtitle": "Budget ownership split",
+      "emptyTitle": "No member allocations yet",
+      "emptySubtitle": "Assign subcategory budgets to family members",
+      "unassigned": "Unassigned"
+    },
+    "memberCategoryChart": {
+      "title": "Member Category Expense Split",
+      "subtitle": "Category-wise amount and percentage for each member",
+      "emptyTitle": "No member category allocations yet",
+      "emptySubtitle": "Assign subcategory budgets to family members",
+      "noCategoryAllocations": "No category allocations",
+      "totalLabel": "Total",
+      "unassigned": "Unassigned"
+    },
+    "overviewCards": {
+      "monthlyIncome": "Monthly Income",
+      "totalAllocated": "Total Allocated",
+      "unallocated": "Unallocated",
+      "budgetCoverage": "Budget Coverage",
+      "yearSuffix": "/ year",
+      "overBudget": "Over budget",
+      "availableToAllocate": "Available to allocate",
+      "coverageSub": "of income allocated"
+    },
+    "budgetWarning": {
+      "title": "Budget exceeds income by {overBy}",
+      "description": "Your total category allocations ({totalAllocated}) are more than your total monthly income ({totalIncome}). Review your subcategory budgets to bring the total back within your income."
+    }
+  },
+  "income": {
+    "pageTitle": "Income",
+    "pageSubtitle": "Manage all income sources for your family",
+    "manager": {
+      "summaryMonthly": "Total Monthly Income",
+      "summaryAnnual": "Annual Equivalent",
+      "editTitle": "Edit Income Source",
+      "addTitle": "Add Income Source",
+      "label": "Label",
+      "amount": "Monthly Amount (₹)",
+      "member": "Family Member",
+      "source": "Income Source",
+      "placeholderLabel": "e.g. Main Salary",
+      "placeholderAmount": "e.g. 75000",
+      "cancel": "Cancel",
+      "saveLoading": "Saving...",
+      "saveUpdate": "Update",
+      "saveCreate": "Add Income",
+      "listTitle": "Income Sources",
+      "addButton": "Add",
+      "emptyTitle": "No income sources yet.",
+      "emptySubtitle": "Click Add to get started.",
+      "deleteConfirm": "Delete this income source?",
+      "monthSuffix": "/mo",
+      "yearSuffix": "/yr"
+    },
+    "sources": {
+      "PRIMARY": "Salary / Wages",
+      "SECONDARY": "Business / Freelance",
+      "SIDE": "Other Income"
+    }
+  },
+  "categories": {
+    "pageTitle": "Categories",
+    "pageSubtitle": "Build your budget categories and set subcategory allocations",
+    "manager": {
+      "summaryMonthly": "Total Monthly Budget Allocated",
+      "summaryYearSuffix": "/ year",
+      "emptyTitle": "No categories yet.",
+      "emptySubtitle": "Click Add Category below to get started.",
+      "deleteCategoryConfirm": "Delete this category and all its subcategories?",
+      "subEmpty": "No subcategories yet — add one below.",
+      "subcategoryNamePlaceholder": "Subcategory name",
+      "subcategoryAmountPlaceholder": "₹ Budget",
+      "subcategoryNotePlaceholder": "Note (optional)",
+      "subcategoryAmountEditPlaceholder": "₹ Amount",
+      "newCategoryTitle": "New Category",
+      "newCategoryPlaceholder": "e.g. Housing, Food, Transport",
+      "addCategory": "Add Category",
+      "itemCountSuffix": "items",
+      "assignedLabel": "Assigned to",
+      "monthlyBudgetSuffix": "/mo"
+    }
+  },
+  "family": {
+    "pageTitle": "Family",
+    "pageSubtitle": "Manage your family settings and invite your partner",
+    "panel": {
+      "soloMode": "Solo Budget",
+      "coupleMode": "Family Budget",
+      "inviteTitle": "Invite Your Partner",
+      "inviteDescription": "Share this code with your partner. They can enter it on the onboarding screen to join your family budget.",
+      "inviteFootnote": "The invite code is unique to your family. Only one partner can join.",
+      "membersTitle": "Members",
+      "you": "You",
+      "admin": "Admin",
+      "member": "Member",
+      "unnamedUser": "Unnamed User"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to manage your family budget",
+      "googleButton": "Continue with Google",
+      "invalidCredentials": "Invalid email or password",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "submitIdle": "Sign In",
+      "submitLoading": "Signing in...",
+      "noAccountPrefix": "Don't have an account?",
+      "noAccountLink": "Sign up"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Start planning your family finances",
+      "googleButton": "Continue with Google",
+      "fallbackError": "Registration failed",
+      "nameLabel": "Name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "submitIdle": "Create Account",
+      "submitLoading": "Creating account...",
+      "hasAccountPrefix": "Already have an account?",
+      "hasAccountLink": "Sign in"
+    }
+  },
+  "onboarding": {
+    "title": "Set up your budget",
+    "subtitle": "Create a family or join an existing one",
+    "choose": {
+      "createTitle": "Create Family",
+      "createSubtitle": "Start fresh",
+      "joinTitle": "Join Family",
+      "joinSubtitle": "Use invite code"
+    },
+    "create": {
+      "familyName": "Family Name",
+      "familyNamePlaceholder": "e.g. The Sharma Family",
+      "soloName": "Your Name",
+      "soloNamePlaceholder": "e.g. Vijay Sharma",
+      "budgetType": "Budget Type",
+      "coupleMode": "Family / Couple",
+      "soloMode": "Solo",
+      "submitIdle": "Create Family",
+      "submitLoading": "Creating..."
+    },
+    "join": {
+      "inviteCode": "Invite Code",
+      "inviteCodePlaceholder": "e.g. FAM-AB1234",
+      "submitIdle": "Join Family",
+      "submitLoading": "Joining..."
+    }
+  }
+}
