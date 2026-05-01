@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { content } from '@/lib/content'
@@ -9,9 +9,19 @@ import { BrandLogo } from '@/components/brand/brand-logo'
 
 export default function RegisterPage() {
   const router = useRouter()
+  const { data: session, status } = useSession()
   const [form, setForm] = useState({ name: '', email: '', password: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (status !== 'authenticated') return
+    if (session?.user?.familyId) {
+      router.replace('/dashboard')
+      return
+    }
+    router.replace('/onboarding')
+  }, [status, session?.user?.familyId, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

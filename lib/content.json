@@ -3,6 +3,103 @@
     "title": "DoomSaver",
     "description": "Plan and track your family finances together with DoomSaver"
   },
+  "landing": {
+    "eyebrow": "Plan Money Together",
+    "title": "Family budgeting that actually feels simple.",
+    "subtitle": "DoomSaver helps households plan income, build category templates, copy monthly budgets, and stay aligned with one shared view.",
+    "mottoTitle": "Our Motto",
+    "motto": "Clarity over chaos. Plan once, adapt monthly, and decide together.",
+    "ctaPrimary": "Login",
+    "ctaSecondary": "Sign up",
+    "ctaTertiary": "Explore Features",
+    "factsTitle": "Built-In Facts",
+    "factsSubtitle": "Everything below is based on features already available inside DoomSaver.",
+    "factsItems": {
+      "layersValue": "2",
+      "layersTitle": "Planning Layers",
+      "layersBody": "Master templates + monthly snapshots",
+      "copyValue": "2",
+      "copyTitle": "Month Targets",
+      "copyBody": "Copy into current or next month",
+      "workspacesValue": "4",
+      "workspacesTitle": "Core Workspaces",
+      "workspacesBody": "Dashboard, Income, Categories, Budgets",
+      "sharedValue": "1",
+      "sharedTitle": "Shared Family View",
+      "sharedBody": "Everyone follows the same plan"
+    },
+    "featureUsageTitle": "How You Use DoomSaver",
+    "usageItems": {
+      "step1Title": "Set up your family space",
+      "step1Body": "Create a solo or couple workspace and invite members.",
+      "step2Title": "Build your master template",
+      "step2Body": "Define categories once, then reuse them each month.",
+      "step3Title": "Copy, adjust, and track",
+      "step3Body": "Copy budget and income into current/next month and monitor from Dashboard."
+    },
+    "benefitsTitle": "Why Families Choose It",
+    "benefitsItems": {
+      "onePlanTitle": "One shared plan",
+      "onePlanBody": "Everyone sees the same goals, allocations, and ownership.",
+      "monthlyRhythmTitle": "Monthly rhythm",
+      "monthlyRhythmBody": "Use master templates and monthly copies instead of rebuilding from scratch.",
+      "balancedDecisionsTitle": "Balanced decisions",
+      "balancedDecisionsBody": "Compare income vs allocation quickly and fix gaps early."
+    },
+    "featureShowcaseTitle": "What You Can Visualize",
+    "featureShowcaseSubtitle": "Track category allocation, member ownership, and month-by-month readiness in one flow.",
+    "finalCtaTitle": "Start planning together in minutes",
+    "finalCtaBody": "Create your account, set up your family space, and begin with your first master plan.",
+    "topLinks": {
+      "features": "Features",
+      "about": "About"
+    }
+  },
+  "featuresPage": {
+    "title": "Features",
+    "subtitle": "A practical toolkit for monthly family budgeting.",
+    "sections": {
+      "planningTitle": "Planning System",
+      "planningItems": {
+        "one": "Master templates for repeatable category structure.",
+        "two": "Monthly budget snapshots for current and next month.",
+        "three": "Copy workflows so you do not rebuild plans each month."
+      },
+      "incomeTitle": "Income Management",
+      "incomeItems": {
+        "one": "Master and monthly income periods.",
+        "two": "Copy income plans into current or next month.",
+        "three": "Member-level source allocation and edits."
+      },
+      "dashboardTitle": "Shared Visibility",
+      "dashboardItems": {
+        "one": "Budget selector drives dashboard cards and charts.",
+        "two": "Coverage and warning indicators for over-allocation.",
+        "three": "Category and member ownership visual breakdowns."
+      }
+    },
+    "ctaTitle": "Ready to plan with your household?",
+    "ctaBody": "Create your account and set up your first family workspace."
+  },
+  "aboutPage": {
+    "title": "About DoomSaver",
+    "subtitle": "Built to make family money planning clear, shared, and repeatable.",
+    "missionTitle": "Mission",
+    "missionBody": "Help families replace financial confusion with a simple monthly planning rhythm they can actually maintain.",
+    "principlesTitle": "Core Principles",
+    "principles": {
+      "oneTitle": "Clarity First",
+      "oneBody": "Keep plans visible and easy to understand for every member.",
+      "twoTitle": "Repeatable Rhythm",
+      "twoBody": "Use master templates and monthly copies to reduce setup effort.",
+      "threeTitle": "Shared Accountability",
+      "threeBody": "Assign ownership and review progress together from one dashboard."
+    },
+    "whoTitle": "Who It Is For",
+    "whoBody": "Couples, families, and solo planners who want structured monthly budgeting without complex spreadsheets.",
+    "ctaTitle": "Start Your Budgeting Flow",
+    "ctaBody": "Sign up and create your planning workspace in minutes."
+  },
   "nav": {
     "brand": "DoomSaver",
     "items": {
