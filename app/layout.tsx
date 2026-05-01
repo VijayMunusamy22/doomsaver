@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { content } from '@/lib/content'
 import { RouteProgress } from '@/components/nav/route-progress'
 import { StructuredData } from '@/components/seo/structured-data'
-import { getSiteUrl } from '@/lib/seo'
+import { getAbsoluteUrl, getSiteUrl } from '@/lib/seo'
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-sans' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-heading' })
@@ -25,8 +25,22 @@ export const metadata: Metadata = {
   publisher: content.meta.title,
   referrer: 'origin-when-cross-origin',
   category: 'personal finance',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   alternates: {
     canonical: '/',
+    languages: {
+      'en-US': '/',
+    },
   },
   keywords: [
     'family budget app',
@@ -42,7 +56,7 @@ export const metadata: Metadata = {
     siteName: content.meta.title,
     title: content.meta.title,
     description: content.meta.description,
-    url: siteUrl,
+    url: getAbsoluteUrl('/'),
     images: [
       {
         url: '/opengraph-image',
@@ -74,7 +88,7 @@ export const metadata: Metadata = {
   },
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-    : undefined,
+    : { google: 'TqT4atSMHLIu6ItqWLDYRrtl1ybuLfdF5rj2XaVpdFQ' },
 }
 
 export const viewport: Viewport = {
@@ -86,9 +100,6 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={cn('font-sans', dmSans.variable, playfair.variable)}>
-      <head>
-        <meta name="google-site-verification" content="TqT4atSMHLIu6ItqWLDYRrtl1ybuLfdF5rj2XaVpdFQ" />
-      </head>
       <body className={dmSans.className}>
         <StructuredData />
         <RouteProgress />

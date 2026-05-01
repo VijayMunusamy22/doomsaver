@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { content } from '@/lib/content'
@@ -9,6 +9,7 @@ import { BrandLogo } from '@/components/brand/brand-logo'
 
 export default function LoginPage() {
   const router = useRouter()
+  const { data: session, status } = useSession()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -19,6 +20,15 @@ export default function LoginPage() {
     const params = new URLSearchParams(window.location.search)
     setAuthErrorCode(params.get('error'))
   }, [])
+
+  useEffect(() => {
+    if (status !== 'authenticated') return
+    if (session?.user?.familyId) {
+      router.replace('/dashboard')
+      return
+    }
+    router.replace('/onboarding')
+  }, [status, session?.user?.familyId, router])
 
   const providerError = useMemo(() => {
     if (!authErrorCode) return ''

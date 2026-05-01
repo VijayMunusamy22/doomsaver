@@ -8,8 +8,31 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/login', '/register'],
-        disallow: ['/api/', '/dashboard', '/income', '/categories', '/family', '/onboarding', '/auth/'],
+        allow: ['/', '/features', '/about', '/login', '/register'],
+        disallow: [
+          '/api/',
+          '/dashboard',
+          '/income',
+          '/categories',
+          '/budgets',
+          '/family',
+          '/onboarding',
+          '/auth/',
+        ],
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: ['/', '/features', '/about', '/login', '/register'],
+        disallow: [
+          '/api/',
+          '/dashboard',
+          '/income',
+          '/categories',
+          '/budgets',
+          '/family',
+          '/onboarding',
+          '/auth/',
+        ],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,

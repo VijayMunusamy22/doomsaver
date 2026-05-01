@@ -6,16 +6,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: getAbsoluteUrl('/login'),
+      url: getAbsoluteUrl('/'),
       lastModified: now,
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: getAbsoluteUrl('/register'),
+      url: getAbsoluteUrl('/features'),
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: getAbsoluteUrl('/about'),
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.9,
+      priority: 0.8,
     },
   ]
 }

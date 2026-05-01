@@ -5,10 +5,14 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'DoomSaver',
     short_name: 'DoomSaver',
     description: 'Plan and track your family finances together with DoomSaver',
-    start_url: '/login',
+    start_url: '/',
+    scope: '/',
     display: 'standalone',
+    orientation: 'portrait',
     background_color: '#F2EDE4',
     theme_color: '#1A1B22',
+    categories: ['finance', 'productivity', 'utilities'],
+    lang: 'en-US',
     icons: [
       {
         src: '/icon.png',
