@@ -51,5 +51,6 @@ export async function POST(req: Request) {
   })
   revalidatePath('/dashboard')
   revalidatePath('/categories')
+  revalidatePath('/budgets')
   return NextResponse.json(sub)
 }

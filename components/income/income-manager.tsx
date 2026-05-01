@@ -1,10 +1,18 @@
 'use client'
 
-import { useState } from 'react'
-import { Pencil, Trash2, Plus, Wallet } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { Pencil, Trash2, Plus, Wallet, Copy } from 'lucide-react'
 import { formatINR } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import { content } from '@/lib/content'
+import { formatPeriodLabel } from '@/lib/budgets'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 type IncomeSource = 'PRIMARY' | 'SECONDARY' | 'SIDE'
 
@@ -19,6 +27,7 @@ interface Income {
   label: string
   amount: number
   type: IncomeSource
+  periodKey: string
   user: IncomeUser
 }
 
@@ -43,11 +52,21 @@ const SOURCE_COLORS: Record<IncomeSource, string> = {
 interface Props {
   initialIncomes: Income[]
   members: Member[]
+  selectedPeriodKey: string
+  periodOptions: string[]
+  allowedTargetPeriods: string[]
 }
 
-export function IncomeManager({ initialIncomes, members }: Props) {
+export function IncomeManager({
+  initialIncomes,
+  members,
+  selectedPeriodKey,
+  periodOptions,
+  allowedTargetPeriods,
+}: Props) {
   const router = useRouter()
   const [incomes, setIncomes] = useState(initialIncomes)
+
   const defaultMemberId = members[0]?.id ?? ''
   const getEmptyForm = (userId = defaultMemberId) => ({
     label: '',
@@ -60,8 +79,25 @@ export function IncomeManager({ initialIncomes, members }: Props) {
   const [editId, setEditId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [showForm, setShowForm] = useState(false)
+  const [copying, setCopying] = useState(false)
+  const [sourcePeriodKey, setSourcePeriodKey] = useState(selectedPeriodKey)
+  const [targetPeriodKey, setTargetPeriodKey] = useState(allowedTargetPeriods[0] ?? selectedPeriodKey)
 
-  const totalMonthly = incomes.reduce((s, i) => s + i.amount, 0)
+  useEffect(() => {
+    setIncomes(initialIncomes)
+    setSourcePeriodKey(selectedPeriodKey)
+    setShowForm(false)
+    setEditId(null)
+    setForm(getEmptyForm(form.userId || defaultMemberId))
+  }, [initialIncomes, selectedPeriodKey])
+
+  const totalMonthly = useMemo(() => incomes.reduce((sum, income) => sum + income.amount, 0), [incomes])
+
+  const onPeriodChange = (periodKey: string) => {
+    const params = new URLSearchParams(window.location.search)
+    params.set('period', periodKey)
+    router.push(`/income?${params.toString()}`)
+  }
 
   const save = async () => {
     if (!form.label.trim() || !form.amount || !form.userId) return
@@ -72,6 +108,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
       amount: Number(form.amount),
       type: form.type,
       userId: form.userId,
+      periodKey: selectedPeriodKey,
     }
 
     if (editId) {
@@ -82,7 +119,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
       })
       if (res.ok) {
         const updated = await res.json()
-        setIncomes(p => p.map(i => (i.id === editId ? { ...i, ...updated } : i)))
+        setIncomes(prev => prev.map(income => (income.id === editId ? { ...income, ...updated } : income)))
       }
     } else {
       const res = await fetch('/api/income', {
@@ -92,7 +129,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
       })
       if (res.ok) {
         const created = await res.json()
-        setIncomes(p => [...p, created])
+        setIncomes(prev => [...prev, created])
         router.refresh()
       }
     }
@@ -106,7 +143,9 @@ export function IncomeManager({ initialIncomes, members }: Props) {
   const deleteIncome = async (id: string) => {
     if (!confirm(content.income.manager.deleteConfirm)) return
     const res = await fetch(`/api/income/${id}`, { method: 'DELETE' })
-    if (res.ok) setIncomes(p => p.filter(i => i.id !== id))
+    if (res.ok) {
+      setIncomes(prev => prev.filter(income => income.id !== id))
+    }
   }
 
   const startEdit = (income: Income) => {
@@ -126,23 +165,91 @@ export function IncomeManager({ initialIncomes, members }: Props) {
     setForm(getEmptyForm(form.userId || defaultMemberId))
   }
 
+  const copyIncomeToMonth = async () => {
+    if (!sourcePeriodKey || !targetPeriodKey) return
+
+    setCopying(true)
+    const res = await fetch('/api/income/copy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sourcePeriodKey, targetPeriodKey }),
+    })
+    setCopying(false)
+
+    if (!res.ok) return
+
+    onPeriodChange(targetPeriodKey)
+    router.refresh()
+  }
+
   return (
     <div className="space-y-5">
-      {/* Summary banner */}
-      <div className="bg-card rounded-2xl border p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-          <p className="text-sm text-muted-foreground">{content.income.manager.summaryMonthly}</p>
-          <p className="text-2xl sm:text-3xl font-bold text-foreground">{formatINR(totalMonthly)}</p>
-        </div>
-        <div className="text-left sm:text-right">
-          <p className="text-sm text-muted-foreground">{content.income.manager.summaryAnnual}</p>
-          <p className="text-xl font-semibold text-foreground">{formatINR(totalMonthly * 12)}</p>
+      <div className="glass-card p-4 sm:p-5 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-foreground">{content.income.manager.periodLabel}</label>
+            <Select value={selectedPeriodKey} onValueChange={onPeriodChange}>
+              <SelectTrigger>
+                <SelectValue placeholder={content.income.manager.periodLabel} />
+              </SelectTrigger>
+              <SelectContent>
+                {periodOptions.map(periodKey => (
+                  <SelectItem key={periodKey} value={periodKey}>
+                    {formatPeriodLabel(periodKey)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-col sm:items-end justify-end">
+            <p className="text-sm text-muted-foreground">{content.income.manager.summaryMonthly}</p>
+            <p className="text-2xl sm:text-3xl font-bold text-foreground">{formatINR(totalMonthly)}</p>
+            <p className="text-sm text-muted-foreground">{formatINR(totalMonthly * 12)}</p>
+          </div>
         </div>
       </div>
 
-      {/* Add / Edit form */}
+      <div className="glass-card p-4 sm:p-5 space-y-4">
+        <h3 className="font-semibold text-foreground">{content.income.manager.copyTitle}</h3>
+        <p className="text-xs text-muted-foreground">{content.income.manager.copySubtitle}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_220px_auto] gap-3">
+          <Select value={sourcePeriodKey} onValueChange={setSourcePeriodKey}>
+            <SelectTrigger>
+              <SelectValue placeholder={content.income.manager.periodLabel} />
+            </SelectTrigger>
+            <SelectContent>
+              {periodOptions.map(periodKey => (
+                <SelectItem key={periodKey} value={periodKey}>
+                  {formatPeriodLabel(periodKey)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={targetPeriodKey} onValueChange={setTargetPeriodKey}>
+            <SelectTrigger>
+              <SelectValue placeholder={content.income.manager.copyAction} />
+            </SelectTrigger>
+            <SelectContent>
+              {allowedTargetPeriods.map(periodKey => (
+                <SelectItem key={periodKey} value={periodKey}>
+                  {formatPeriodLabel(periodKey)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <button
+            onClick={copyIncomeToMonth}
+            disabled={copying || !sourcePeriodKey || !targetPeriodKey}
+            className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary/90 disabled:opacity-60"
+          >
+            <Copy className="w-4 h-4" />
+            {copying ? content.income.manager.copyLoading : content.income.manager.copyAction}
+          </button>
+        </div>
+      </div>
+
       {showForm && (
-        <div className="bg-card rounded-2xl border p-4 sm:p-6 space-y-4">
+        <div className="glass-card p-4 sm:p-6 space-y-4">
           <h3 className="font-semibold text-foreground">
             {editId ? content.income.manager.editTitle : content.income.manager.addTitle}
           </h3>
@@ -152,7 +259,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
               <input
                 autoFocus
                 value={form.label}
-                onChange={e => setForm(p => ({ ...p, label: e.target.value }))}
+                onChange={e => setForm(prev => ({ ...prev, label: e.target.value }))}
                 placeholder={content.income.manager.placeholderLabel}
                 className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
               />
@@ -162,7 +269,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
               <input
                 type="number"
                 value={form.amount}
-                onChange={e => setForm(p => ({ ...p, amount: e.target.value }))}
+                onChange={e => setForm(prev => ({ ...prev, amount: e.target.value }))}
                 placeholder={content.income.manager.placeholderAmount}
                 min={0}
                 className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
@@ -170,31 +277,39 @@ export function IncomeManager({ initialIncomes, members }: Props) {
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground">{content.income.manager.member}</label>
-              <select
+              <Select
                 value={form.userId}
-                onChange={e => setForm(p => ({ ...p, userId: e.target.value }))}
-                className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                onValueChange={value => setForm(prev => ({ ...prev, userId: value }))}
               >
-                {members.map(member => (
-                  <option key={member.id} value={member.id}>
-                    {member.name?.trim() || member.email}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger>
+                  <SelectValue placeholder={content.income.manager.member} />
+                </SelectTrigger>
+                <SelectContent>
+                  {members.map(member => (
+                    <SelectItem key={member.id} value={member.id}>
+                      {member.name?.trim() || member.email}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground">{content.income.manager.source}</label>
-              <select
+              <Select
                 value={form.type}
-                onChange={e => setForm(p => ({ ...p, type: e.target.value as IncomeSource }))}
-                className="w-full border rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                onValueChange={value => setForm(prev => ({ ...prev, type: value as IncomeSource }))}
               >
-                {(Object.entries(SOURCE_LABELS) as [IncomeSource, string][]).map(([v, l]) => (
-                  <option key={v} value={v}>
-                    {l}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger>
+                  <SelectValue placeholder={content.income.manager.source} />
+                </SelectTrigger>
+                <SelectContent>
+                  {(Object.entries(SOURCE_LABELS) as [IncomeSource, string][]).map(([value, label]) => (
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
@@ -219,8 +334,7 @@ export function IncomeManager({ initialIncomes, members }: Props) {
         </div>
       )}
 
-      {/* List */}
-      <div className="bg-card rounded-2xl border overflow-hidden">
+      <div className="glass-card overflow-hidden">
         <div className="flex items-center justify-between gap-2 px-4 sm:px-6 py-4 border-b">
           <h3 className="font-semibold text-foreground">{content.income.manager.listTitle}</h3>
           {!showForm && (
@@ -247,7 +361,10 @@ export function IncomeManager({ initialIncomes, members }: Props) {
         ) : (
           <div className="divide-y">
             {incomes.map(income => (
-              <div key={income.id} className="flex flex-col sm:flex-row sm:items-center px-4 sm:px-6 py-4 gap-3 sm:gap-4">
+              <div
+                key={income.id}
+                className="flex flex-col sm:flex-row sm:items-center px-4 sm:px-6 py-4 gap-3 sm:gap-4"
+              >
                 <span
                   className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 self-start ${SOURCE_COLORS[income.type]}`}
                 >
@@ -255,16 +372,12 @@ export function IncomeManager({ initialIncomes, members }: Props) {
                 </span>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-foreground text-sm">{income.label}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {income.user?.name ?? income.user?.email}
-                  </p>
+                  <p className="text-xs text-muted-foreground">{income.user?.name ?? income.user?.email}</p>
                 </div>
                 <div className="text-left sm:text-right">
                   <p className="font-semibold text-foreground text-sm">
                     {formatINR(income.amount)}
-                    <span className="text-muted-foreground font-normal">
-                      {content.income.manager.monthSuffix}
-                    </span>
+                    <span className="text-muted-foreground font-normal">{content.income.manager.monthSuffix}</span>
                   </p>
                   <p className="text-xs text-muted-foreground">
                     {formatINR(income.amount * 12)}

@@ -54,6 +54,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   })
   revalidatePath('/dashboard')
   revalidatePath('/categories')
+  revalidatePath('/budgets')
   return NextResponse.json(updated)
 }
 
@@ -62,8 +63,25 @@ export async function DELETE(_: Request, { params }: { params: { id: string } })
   if (!session?.user?.id)
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { familyId: true },
+  })
+  if (!user?.familyId)
+    return NextResponse.json({ error: 'No family' }, { status: 400 })
+
+  const existing = await prisma.subCategory.findUnique({
+    where: { id: params.id },
+    select: { category: { select: { familyId: true } } },
+  })
+  if (!existing)
+    return NextResponse.json({ error: 'Subcategory not found' }, { status: 404 })
+  if (existing.category.familyId !== user.familyId)
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
   await prisma.subCategory.delete({ where: { id: params.id } })
   revalidatePath('/dashboard')
   revalidatePath('/categories')
+  revalidatePath('/budgets')
   return NextResponse.json({ success: true })
 }

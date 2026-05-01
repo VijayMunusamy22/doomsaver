@@ -9,6 +9,7 @@
       "dashboard": "Dashboard",
       "income": "Income",
       "categories": "Categories",
+      "budgets": "Budgets",
       "family": "Family"
     },
     "userFallback": "User",
@@ -37,6 +38,7 @@
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Your family budget overview",
+    "selectorLabel": "Budget",
     "incomeChart": {
       "title": "Income Breakdown",
       "subtitle": "Split across family members",
@@ -47,7 +49,7 @@
       "title": "Budget by Category",
       "subtitle": "How income is allocated",
       "emptyTitle": "No categories yet",
-      "emptySubtitle": "Add categories on the Categories page",
+      "emptySubtitle": "Create categories and copy them into this budget from the Budgets page",
       "unallocated": "Unallocated"
     },
     "memberExpenseChart": {
@@ -83,10 +85,15 @@
   },
   "income": {
     "pageTitle": "Income",
-    "pageSubtitle": "Manage all income sources for your family",
+    "pageSubtitle": "Manage master and monthly income plans for your family",
     "manager": {
       "summaryMonthly": "Total Monthly Income",
       "summaryAnnual": "Annual Equivalent",
+      "periodLabel": "Income Period",
+      "copyTitle": "Create or Refresh Monthly Income",
+      "copySubtitle": "Copy income entries from Master or any period into current or next month.",
+      "copyAction": "Copy Income",
+      "copyLoading": "Copying...",
       "editTitle": "Edit Income Source",
       "addTitle": "Add Income Source",
       "label": "Label",
@@ -115,9 +122,11 @@
   },
   "categories": {
     "pageTitle": "Categories",
-    "pageSubtitle": "Build your budget categories and set subcategory allocations",
+    "pageSubtitle": "Build the master category template used for monthly budgets",
     "manager": {
       "summaryMonthly": "Total Monthly Budget Allocated",
+      "summaryTemplate": "Total Categories",
+      "subcategoryCountLabel": "Subcategories",
       "summaryYearSuffix": "/ year",
       "emptyTitle": "No categories yet.",
       "emptySubtitle": "Click Add Category below to get started.",
@@ -134,6 +143,24 @@
       "assignedLabel": "Assigned to",
       "monthlyBudgetSuffix": "/mo"
     }
+  },
+  "budgets": {
+    "pageTitle": "Budgets",
+    "pageSubtitle": "Set allocations for master and monthly budget snapshots",
+    "selectorLabel": "Select Budget",
+    "summaryMonthly": "Total Monthly Allocated",
+    "summaryYearSuffix": "/ year",
+    "copyTitle": "Create or Refresh a Monthly Budget",
+    "copySubtitle": "Copy from Master or any existing budget into the current or next month.",
+    "copyAction": "Copy Budget",
+    "copyLoading": "Copying...",
+    "emptyTitle": "No categories found in this budget.",
+    "emptySubtitle": "Add categories to your Master template first, then copy again.",
+    "emptyAction": "Open Categories",
+    "amountPlaceholder": "₹ Amount",
+    "notePlaceholder": "Note (optional)",
+    "saveAction": "Save",
+    "savingAction": "Saving..."
   },
   "family": {
     "pageTitle": "Family",

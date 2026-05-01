@@ -37,7 +37,7 @@ export function FamilyPanel({ family, currentUserId }: Props) {
   return (
     <div className="space-y-5 max-w-2xl">
       {/* Family card */}
-      <div className="bg-card rounded-2xl border p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div className="glass-card p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
           <Users className="w-7 h-7 text-primary" />
         </div>
@@ -53,7 +53,7 @@ export function FamilyPanel({ family, currentUserId }: Props) {
 
       {/* Invite code — COUPLE only */}
       {family.mode === 'COUPLE' && (
-        <div className="bg-card rounded-2xl border p-4 sm:p-6 space-y-4">
+        <div className="glass-card p-4 sm:p-6 space-y-4">
           <div>
             <h3 className="font-semibold text-foreground">{content.family.panel.inviteTitle}</h3>
             <p className="text-sm text-muted-foreground mt-0.5">{content.family.panel.inviteDescription}</p>
@@ -84,7 +84,7 @@ export function FamilyPanel({ family, currentUserId }: Props) {
       )}
 
       {/* Members list */}
-      <div className="bg-card rounded-2xl border overflow-hidden">
+      <div className="glass-card overflow-hidden">
         <div className="px-4 sm:px-6 py-4 border-b">
           <h3 className="font-semibold text-foreground">
             {content.family.panel.membersTitle}

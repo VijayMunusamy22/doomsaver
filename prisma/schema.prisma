@@ -23,6 +23,11 @@ enum IncomeType {
   SIDE
 }
 
+enum BudgetKind {
+  MASTER
+  MONTHLY
+}
+
 model User {
   id            String     @id @default(cuid())
   name          String?
@@ -48,9 +53,28 @@ model Family {
   mode       FamilyMode @default(COUPLE)
   members    User[]
   incomes    Income[]
+  budgets    Budget[]
   categories Category[]
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
+}
+
+model Budget {
+  id            String   @id @default(cuid())
+  name          String
+  kind          BudgetKind
+  periodKey     String
+  familyId      String
+  family        Family   @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  categories    Category[]
+  sourceBudgetId String?
+  sourceBudget  Budget?  @relation("BudgetCopies", fields: [sourceBudgetId], references: [id], onDelete: SetNull)
+  copiedBudgets Budget[] @relation("BudgetCopies")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([familyId, periodKey])
+  @@index([familyId, kind])
 }
 
 model Income {
@@ -58,12 +82,15 @@ model Income {
   label     String
   amount    Float
   type      IncomeType
+  periodKey String
   familyId  String
   family    Family     @relation(fields: [familyId], references: [id], onDelete: Cascade)
   userId    String
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+
+  @@index([familyId, periodKey])
 }
 
 model Category {
@@ -73,9 +100,13 @@ model Category {
   icon          String?
   familyId      String
   family        Family        @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  budgetId      String
+  budget        Budget        @relation(fields: [budgetId], references: [id], onDelete: Cascade)
   subCategories SubCategory[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+
+  @@index([budgetId])
 }
 
 model SubCategory {
