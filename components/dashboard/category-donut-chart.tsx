@@ -60,7 +60,7 @@ export function CategoryDonutChart({ categories, totalIncome }: Props) {
 
   if (baseData.length === 0) {
     return (
-      <div className="bg-card rounded-2xl border p-4 sm:p-6 flex flex-col items-center justify-center h-72 gap-2">
+      <div className="glass-card p-4 sm:p-6 flex flex-col items-center justify-center h-72 gap-2">
         <p className="text-muted-foreground text-sm">{content.dashboard.categoryChart.emptyTitle}</p>
         <p className="text-xs text-muted-foreground/70">
           {content.dashboard.categoryChart.emptySubtitle}
@@ -76,7 +76,7 @@ export function CategoryDonutChart({ categories, totalIncome }: Props) {
   }))
 
   return (
-    <div className="bg-card rounded-2xl border p-4 sm:p-6 min-h-[340px] sm:min-h-[380px] flex flex-col">
+    <div className="glass-card p-4 sm:p-6 min-h-[340px] sm:min-h-[380px] flex flex-col">
       <h3 className="font-semibold text-foreground mb-1">{content.dashboard.categoryChart.title}</h3>
       <p className="text-xs text-muted-foreground mb-4">{content.dashboard.categoryChart.subtitle}</p>
       <div className="h-[220px] sm:h-[260px]">

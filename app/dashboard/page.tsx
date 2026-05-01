@@ -9,6 +9,12 @@ import { BudgetWarning } from '@/components/dashboard/budget-warning'
 import { MemberExpenseChart } from '@/components/dashboard/member-expense-chart'
 import { MemberCategoryExpenseChart } from '@/components/dashboard/member-category-expense-chart'
 import { content } from '@/lib/content'
+import {
+  MASTER_PERIOD_KEY,
+  getBudgetDisplayName,
+  getCurrentPeriodKey,
+} from '@/lib/budgets'
+import { DashboardBudgetSelector } from '@/components/dashboard/budget-selector'
 
 export const metadata: Metadata = {
   title: content.dashboard.title,
@@ -19,19 +25,32 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function DashboardPage() {
+interface Props {
+  searchParams?: { budget?: string | string[] }
+}
+
+export default async function DashboardPage({ searchParams }: Props) {
   const session = await getServerSession(authOptions)
   const familyId = session!.user.familyId!
 
-  const [incomes, categories, members] = await Promise.all([
-    prisma.income.findMany({
+  let masterBudget = await prisma.budget.findUnique({
+    where: { familyId_periodKey: { familyId, periodKey: MASTER_PERIOD_KEY } },
+  })
+
+  if (!masterBudget) {
+    masterBudget = await prisma.budget.create({
+      data: {
+        familyId,
+        name: 'Master Budget',
+        kind: 'MASTER',
+        periodKey: MASTER_PERIOD_KEY,
+      },
+    })
+  }
+
+  const [budgets, members] = await Promise.all([
+    prisma.budget.findMany({
       where: { familyId },
-      include: { user: { select: { id: true, name: true, email: true } } },
-      orderBy: { createdAt: 'asc' },
-    }),
-    prisma.category.findMany({
-      where: { familyId },
-      include: { subCategories: true },
       orderBy: { createdAt: 'asc' },
     }),
     prisma.user.findMany({
@@ -41,6 +60,52 @@ export default async function DashboardPage() {
     }),
   ])
 
+  const sortedBudgets = budgets
+    .slice()
+    .sort((a, b) => {
+      if (a.periodKey === MASTER_PERIOD_KEY) return -1
+      if (b.periodKey === MASTER_PERIOD_KEY) return 1
+      return a.periodKey < b.periodKey ? 1 : -1
+    })
+
+  const currentMonthlyBudget = sortedBudgets.find(
+    budget => budget.kind === 'MONTHLY' && budget.periodKey === getCurrentPeriodKey(),
+  )
+
+  const selectedBudgetParam = Array.isArray(searchParams?.budget)
+    ? searchParams?.budget[0]
+    : searchParams?.budget
+
+  const selectedBudget =
+    sortedBudgets.find(budget => budget.id === selectedBudgetParam) ??
+    currentMonthlyBudget ??
+    masterBudget
+
+  const incomePeriodKey =
+    selectedBudget.periodKey === MASTER_PERIOD_KEY
+      ? MASTER_PERIOD_KEY
+      : selectedBudget.periodKey
+
+  let incomes = await prisma.income.findMany({
+    where: { familyId, periodKey: incomePeriodKey },
+    include: { user: { select: { id: true, name: true, email: true } } },
+    orderBy: { createdAt: 'asc' },
+  })
+
+  if (incomePeriodKey !== MASTER_PERIOD_KEY && incomes.length === 0) {
+    incomes = await prisma.income.findMany({
+      where: { familyId, periodKey: MASTER_PERIOD_KEY },
+      include: { user: { select: { id: true, name: true, email: true } } },
+      orderBy: { createdAt: 'asc' },
+    })
+  }
+
+  const categories = await prisma.category.findMany({
+    where: { familyId, budgetId: selectedBudget.id },
+    include: { subCategories: true },
+    orderBy: { createdAt: 'asc' },
+  })
+
   const totalIncome = incomes.reduce((s, i) => s + i.amount, 0)
   const totalAllocated = categories.reduce(
     (s, cat) => s + cat.subCategories.reduce((ss, sub) => ss + sub.budgetAmount, 0),
@@ -49,9 +114,18 @@ export default async function DashboardPage() {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6 lg:space-y-8 page-enter">
-      <div>
-        <h1 className="text-xl sm:text-2xl font-bold text-foreground">{content.dashboard.title}</h1>
-        <p className="text-muted-foreground text-sm mt-1">{content.dashboard.subtitle}</p>
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground">{content.dashboard.title}</h1>
+          <p className="text-muted-foreground text-sm mt-1">{content.dashboard.subtitle}</p>
+        </div>
+        <DashboardBudgetSelector
+          budgets={sortedBudgets.map(budget => ({
+            id: budget.id,
+            displayName: getBudgetDisplayName(budget),
+          }))}
+          selectedBudgetId={selectedBudget.id}
+        />
       </div>
 
       <BudgetWarning totalIncome={totalIncome} totalAllocated={totalAllocated} />

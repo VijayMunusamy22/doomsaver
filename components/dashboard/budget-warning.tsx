@@ -17,7 +17,7 @@ export function BudgetWarning({ totalIncome, totalAllocated }: Props) {
     .replace('{totalIncome}', formatINR(totalIncome))
 
   return (
-    <div className="flex items-start gap-3 bg-primary/10 border border-primary/30 text-foreground rounded-xl px-5 py-4">
+    <div className="glass-soft flex items-start gap-3 text-foreground rounded-xl px-5 py-4">
       <AlertTriangle className="w-5 h-5 mt-0.5 flex-shrink-0 text-primary" />
       <div>
         <p className="font-semibold text-sm">{title}</p>

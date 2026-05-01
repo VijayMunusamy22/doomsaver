@@ -52,7 +52,7 @@ export function OverviewCards({ totalIncome, totalAllocated }: Props) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
       {cards.map(({ label, value, sub, icon: Icon, color, bg }) => (
-        <div key={label} className="bg-card rounded-2xl border p-4 sm:p-5 space-y-3">
+        <div key={label} className="glass-card p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground font-medium">{label}</span>
             <div className={`${bg} p-2 rounded-lg`}>

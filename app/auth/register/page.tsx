@@ -37,7 +37,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4 page-enter">
-      <div className="w-full max-w-md bg-card rounded-2xl shadow-sm border p-8 space-y-6">
+      <div className="glass-card w-full max-w-md shadow-sm p-8 space-y-6">
         <div className="text-center space-y-2">
           <div className="inline-flex justify-center">
             <BrandLogo iconOnly />
@@ -48,7 +48,7 @@ export default function RegisterPage() {
 
         <button
           onClick={() => signIn('google', { callbackUrl: '/onboarding' })}
-          className="w-full flex items-center justify-center gap-3 border rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-muted transition-colors"
+          className="w-full flex items-center justify-center gap-3 border rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-white/48 transition-colors"
         >
           <GoogleIcon />
           {content.auth.register.googleButton}

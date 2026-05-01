@@ -66,7 +66,7 @@ export default function OnboardingPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4 page-enter">
-      <div className="w-full max-w-lg bg-card rounded-2xl shadow-sm border p-8 space-y-6">
+      <div className="glass-card w-full max-w-lg shadow-sm p-8 space-y-6">
         <div className="text-center">
           <div className="inline-flex justify-center mb-3">
             <BrandLogo iconOnly />
@@ -79,7 +79,7 @@ export default function OnboardingPage() {
           <div className="grid grid-cols-2 gap-4">
             <button
               onClick={() => setStep('create')}
-              className="border-2 border-dashed rounded-xl p-6 text-center hover:border-primary hover:bg-primary/5 transition-all group"
+              className="glass-soft border-2 border-dashed rounded-xl p-6 text-center hover:border-primary hover:bg-primary/5 transition-all group"
             >
               <div className="text-3xl mb-2">🏠</div>
               <div className="font-semibold text-foreground group-hover:text-primary">
@@ -91,7 +91,7 @@ export default function OnboardingPage() {
             </button>
             <button
               onClick={() => setStep('join')}
-              className="border-2 border-dashed rounded-xl p-6 text-center hover:border-primary hover:bg-primary/5 transition-all group"
+              className="glass-soft border-2 border-dashed rounded-xl p-6 text-center hover:border-primary hover:bg-primary/5 transition-all group"
             >
               <div className="text-3xl mb-2">🔗</div>
               <div className="font-semibold text-foreground group-hover:text-primary">

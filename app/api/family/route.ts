@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { generateInviteCode } from '@/lib/utils'
 import { z } from 'zod'
+import { MASTER_PERIOD_KEY } from '@/lib/budgets'
 
 const schema = z.object({
   name: z.string().min(1),
@@ -44,6 +45,15 @@ export async function POST(req: Request) {
   await prisma.user.update({
     where: { id: session.user.id },
     data: { role: 'ADMIN', familyId: family.id },
+  })
+
+  await prisma.budget.create({
+    data: {
+      name: 'Master Budget',
+      kind: 'MASTER',
+      periodKey: MASTER_PERIOD_KEY,
+      familyId: family.id,
+    },
   })
 
   return NextResponse.json(family)
